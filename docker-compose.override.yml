@@ -1,0 +1,5 @@
+version: '3.5'
+
+###> doctrine/doctrine-bundle ###
+
+###< doctrine/doctrine-bundle ###

@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+  api:
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/api/
+    expose:
+      - "8000"
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: /usr/local/bin/symfony server:start
+    restart: always
