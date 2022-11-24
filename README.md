@@ -49,6 +49,7 @@ $ change the database configuration in the .env file
 ```
 $ php bin/console doctrine:migrations:migrate
 $ copy the database with '_test' name and create for testing purpose
+$ symfony server:start
 ```
 This will start the application.
 
