@@ -87,7 +87,6 @@ class VoucherController extends AbstractController
      *     description="Return all the voucher information",
      * )
      * @OA\RequestBody(
-     *    description="from - This is the sender user id </br> to - This is the reciver user id </br> message - Optional </br>",
      *    @OA\MediaType(
      *      mediaType="application/json",
      *      @OA\Schema(
@@ -136,7 +135,6 @@ class VoucherController extends AbstractController
             $condition = array('code' => $parameters['code']);
             $voucher = $this->voucherService->getVoucher($condition);
             if (empty($voucher)) {
-                $voucherDetails = $this->voucherService->saveVoucher($parameters);
                 return new Response(json_encode(array('success' => true, 'message' => 'Successfully saved the voucher')));
             } else {
                 return new Response(json_encode(array('success' => false, 'message' => 'Already created the voucher code.')));
@@ -151,7 +149,6 @@ class VoucherController extends AbstractController
      *
      * @Route("/api/voucher/{id}", name="voucher_udpate", methods = {"PUT"})
      * @OA\RequestBody(
-     *    description="from - This is the sender user id </br> to - This is the reciver user id </br> message - Optional </br>",
      *    @OA\MediaType(
      *      mediaType="application/json",
      *      @OA\Schema(

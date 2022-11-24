@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class CommonService
 {
     private $client;
-    private $errorMessage = array('status' => 503, 'message' => 'Please try after sometime.');
 
     public function __construct(HttpClientInterface $client)
     {
@@ -24,7 +23,7 @@ class CommonService
     public function getPageOffset($limit, $page)
     {
         if($page) {
-            return $offset = ($page * $limit) - $limit;
+            return ($page * $limit) - $limit;
         } else {
             return 0;
         }
@@ -39,7 +38,7 @@ class CommonService
         }
     }
 
-    public function getFormatedOrders($ordersInfo)
+    public function getFormattedOrders($ordersInfo): array
     {
         $orders = array();
         foreach ($ordersInfo as $order) {

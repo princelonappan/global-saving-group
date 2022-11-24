@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\OrderVoucher;
-use App\Entity\Voucher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,29 +46,4 @@ class OrderVoucherRepository extends ServiceEntityRepository
         $this->_em->flush();
         return $orderVoucher;
     }
-
-//    /**
-//     * @return OrderVoucher[] Returns an array of OrderVoucher objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?OrderVoucher
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

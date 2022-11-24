@@ -3,15 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Customer;
-use App\Entity\Invitation;
-use App\Entity\Order;
-use App\Entity\Voucher;
 use App\Repository\CustomerRepository;
 use App\Repository\InvitationRepository;
-use App\Repository\OrderRepository;
-use App\Repository\UserRepository;
-use App\Repository\VoucherRepository;
-use App\Service\CommonService;
 
 class CustomerService
 {

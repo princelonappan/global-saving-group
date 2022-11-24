@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Order;
-use App\Entity\Voucher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -52,39 +51,14 @@ class OrderRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('SELECT o.id, o.amount, o.status, c.name, o.status,
-        v.code, v.description, v.type, v.discount_amount, o.created_date
-        FROM App\Entity\Order o LEFT JOIN 
-        App\Entity\OrderVoucher ov WITH (o.id = ov.order_id)
-        LEFT JOIN App\Entity\Voucher v WITH (v.id = ov.voucher_id)
-        LEFT JOIN App\Entity\Customer c WITH (o.customer_id= c.id) ')
+                v.code, v.description, v.type, v.discount_amount, o.created_date
+                FROM App\Entity\Order o LEFT JOIN 
+                App\Entity\OrderVoucher ov WITH (o.id = ov.order_id)
+                LEFT JOIN App\Entity\Voucher v WITH (v.id = ov.voucher_id)
+                LEFT JOIN App\Entity\Customer c WITH (o.customer_id= c.id) ')
             ->setMaxResults($limit)
             ->setFirstResult($offset);
 
         return $query->getResult();
     }
-
-//    /**
-//     * @return Order[] Returns an array of Order objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Order
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

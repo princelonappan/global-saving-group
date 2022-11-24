@@ -38,29 +38,4 @@ class OrderService
     {
         return $this->orderRepository->getOrders($limit, $offset);
     }
-
-//    public function getVoucher($condition): array
-//    {
-//        return $this->voucherRepository->getVoucherInfo($condition);
-//    }
-//
-//    public function getVoucherById($voucher): ?Voucher
-//    {
-//        return $this->voucherRepository->getVoucherById($voucher);
-//    }
-//
-//    public function deleteVoucher($voucher)
-//    {
-//        return $this->voucherRepository->remove($voucher, true);
-//    }
-//
-//    public function getActiveVouchers($limit, $offset): array
-//    {
-//        return $this->voucherRepository->getActiveVouchers(Voucher::STATUS_NOT_APPLIED, $limit, $offset);
-//    }
-//
-//    public function getExpiredVouchers($limit, $offset): array
-//    {
-//        return $this->voucherRepository->getExpiredVouchers($limit, $offset);
-//    }
 }

@@ -33,6 +33,14 @@ The following docker command will run the application.
 $ cd global-saving-group
 $ docker-compose up -d
 ```
+#### Running without docker
+
+```
+$ cd global-saving-group
+$ composer install
+$ curl -sS https://get.symfony.com/cli/installer | bash
+$ mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+```
 #### Install dependencies
 ```
 $ change the database configuration in the .env file

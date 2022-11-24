@@ -27,10 +27,6 @@ class OrderController extends AbstractController
      */
     private $commonService;
     /**
-     * @var VoucherRepository
-     */
-    private $voucherRepository;
-    /**
      * @var VoucherService
      */
     private $voucherService;
@@ -47,12 +43,11 @@ class OrderController extends AbstractController
      */
     private $orderVoucherService;
 
-    public function __construct(CommonService $commonService, VoucherRepository $voucherRepository,
+    public function __construct(CommonService $commonService,
                                 VoucherService $voucherService, CustomerService $customerService, OrderService $orderService,
                                 OrderVoucherService $orderVoucherService)
     {
         $this->commonService = $commonService;
-        $this->voucherRepository = $voucherRepository;
         $this->voucherService = $voucherService;
         $this->customerService = $customerService;
         $this->orderService = $orderService;
@@ -82,7 +77,7 @@ class OrderController extends AbstractController
         $paginationLimit = Order::PAGINATION_LIMIT;
         $offset = $this->commonService->getPageOffset($paginationLimit, $page);
         $ordersInfo = $this->orderService->getOrders($paginationLimit, $offset);
-        $orders = $this->commonService->getFormatedOrders($ordersInfo);
+        $orders = $this->commonService->getFormattedOrders($ordersInfo);
         return new Response(json_encode(array('success' => true, 'orders' => $orders)));
     }
 
@@ -95,7 +90,7 @@ class OrderController extends AbstractController
      *     description="Return order information",
      * )
      *  @OA\RequestBody(
-     *          description="from - This is the sender user id </br> to - This is the reciver user id </br> message - Optional </br>",
+     *          description="amount - Order amount </br> customer_id - Customer id </br> voucher - Optional </br>",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
@@ -143,18 +138,15 @@ class OrderController extends AbstractController
                     if ($voucherInfo->getStatus() == Voucher::STATUS_NOT_APPLIED &&
                         ($voucherInfo->getExpiresAt()->getTimestamp() > strtotime($this->commonService->getCurrentTime()))) {
                         $amount = $parameters['amount'];
-                        $voucherDiscountValue = $voucherInfo->getDiscountAmount();
-                        if ($voucherInfo->getType() == Voucher::STATUS_PERCENTAGE_TYPE) {
-                            $discountAmount = ($voucherDiscountValue / 100) * $amount;
-                        } else {
-                            $discountAmount = $voucherDiscountValue;
-                        }
+                        $discountAmount = $this->commonService->calculateDiscountAmount($voucherInfo->getType(),
+                            $voucherInfo->getDiscountAmount(), $amount);
                         if ($discountAmount < $amount) {
                             $orderDetails = $this->orderService->saveOrder($parameters, $customer);
                             if ($orderDetails) {
                                 $this->orderVoucherService->saveOrder($orderDetails, $customer, $voucherInfo);
                                 $this->voucherService->updateOrderStatus($voucherInfo, Voucher::STATUS_APPLIED);
-                                $response = array('order_id' => $orderDetails->getAmount());
+                                $response = array('order_id' => $orderDetails->getId(), 'discount_amount' => $discountAmount
+                                , 'order_amount' => $amount);
                                 return new Response(json_encode(array('success' => true,
                                     'message' => 'Successfully created and applied the order and voucher.' . json_encode($response))));
                             } else {
